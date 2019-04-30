@@ -13,7 +13,7 @@ float polynomial (float x, float* poly, int degree) {
 }
 
 void polynomial_expansion (float* poly, int degree,
-			   int n, float* array) {
+         int n, float* array) {
 
 #pragma omp parallel for schedule(dynamic,1024)
   for (int i=0; i< n; ++i) {
@@ -37,7 +37,7 @@ int main (int argc, char* argv[]) {
   for (int i=0; i<n; ++i)
     array[i] = 1.;
 
-  for (int i=0; i<degree+1; ++i)
+  for (int i=0; i<=degree+1; ++i)
     poly[i] = 1.;
 
   
