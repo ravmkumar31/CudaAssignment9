@@ -43,9 +43,6 @@
     std::chrono::time_point<std::chrono::system_clock> begin, end;
     begin = std::chrono::system_clock::now();
 
-    HANDLE_ERROR(cudaMalloc(&d_array, n*sizeof(float)));
-    HANDLE_ERROR(cudaMalloc(&d_poly, (degree+1)*sizeof(float)));
-
     cudaMalloc(&d_array, n*sizeof(float));
     cudaMalloc(&d_poly, (degree+1)*sizeof(float));
 
