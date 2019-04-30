@@ -37,7 +37,7 @@ int main (int argc, char* argv[]) {
   for (int i=0; i<n; ++i)
     array[i] = 1.;
 
-  for (int i=0; i<=degree+1; ++i)
+  for (int i=0; i<degree+1; ++i)
     poly[i] = 1.;
 
   
