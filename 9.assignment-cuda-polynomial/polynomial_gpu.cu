@@ -10,8 +10,8 @@ __global__ void polynomial_expansion (float* poly,int degree,int n,float* array)
       float exp=1.0;
       for(int x=0;x<=degree;++x)
       {
-        val+=exponent*poly[x];
-        exponent*=array[idx];
+        val+=exp*poly[x];
+        exp*=array[idx];
       }
       array[idx]=val;
     }
