@@ -3,17 +3,17 @@
 
 __global__ void polynomial_expansion (float* poly,int degree,int n,float* array) 
 {
-  int index=blockIdx.x*blockDim.x+threadIdx.x;
-  if(index<n)
+  int idx=blockIdx.x*blockDim.x+threadIdx.x;
+  if(idx<n)
     {
-    float result=0.0;
-      float exponent=1.0;
+    float val=0.0;
+      float exp=1.0;
       for(int x=0;x<=degree;++x)
       {
-        result+=exponent*poly[x];
-        exponent*=array[index];
+        val+=exponent*poly[x];
+        exponent*=array[idx];
       }
-      array[index]=result;
+      array[idx]=val;
     }
 }
 
@@ -40,23 +40,23 @@ int main(int argc, char* argv[])
       poly[i]=1.;
   }
 
-    float *d_array,*d_poly;
+    float *ArrD,*ArrP;
 
   //start calculating time
     std::chrono::time_point<std::chrono::system_clock> start_time,end_time;
     start_time = std::chrono::system_clock::now();
 
-    cudaMalloc(&d_array,n*sizeof(float));
-    cudaMalloc(&d_poly,(degree+1)*sizeof(float));
+    cudaMalloc(&ArrD,n*sizeof(float));
+    cudaMalloc(&ArrP,(degree+1)*sizeof(float));
 
-    cudaMemcpy(d_array,array,n*sizeof(float),cudaMemcpyHostToDevice);
-    cudaMemcpy(d_poly,poly,(degree+1)*sizeof(float),cudaMemcpyHostToDevice);
+    cudaMemcpy(ArrD,array,n*sizeof(float),cudaMemcpyHostToDevice);
+    cudaMemcpy(ArrP,poly,(degree+1)*sizeof(float),cudaMemcpyHostToDevice);
 
-    polynomial_expansion<<<(n+255)/256, 256>>>(d_poly,degree,n,d_array);
-    cudaMemcpy(array,d_array,n*sizeof(float),cudaMemcpyDeviceToHost);
+    polynomial_expansion<<<(n+255)/256, 256>>>(ArrP,degree,n,ArrD);
+    cudaMemcpy(array,ArrD,n*sizeof(float),cudaMemcpyDeviceToHost);
 
-    cudaFree(d_array);
-    cudaFree(d_poly);
+    cudaFree(ArrD);
+    cudaFree(ArrP);
 
     cudaDeviceSynchronize();
   {
