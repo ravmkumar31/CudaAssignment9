@@ -35,7 +35,7 @@
       array[i] = 1.;
   }
 
-    for (int i=0; i<=degree+1; ++i){
+    for (int i=0; i<degree+1; ++i){
       poly[i] = 1.;
   }
 
